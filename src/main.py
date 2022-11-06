@@ -86,20 +86,14 @@ while run:
     screen.fill(DARK_BLUE)
 
     for alien in aliens:
-        screen.blit(alien_img, alien.position())
-
-    screen.blit(player_img, player.position())
-    if player.hasShield:
-        screen.blit(player_shield_img, player.position())
+        alien.draw(screen, alien_img)
 
     for bullet in bullets:
-        if not bullet.wasFiredFromShip:
-            if theBoss.isAlive==False:
-                screen.blit(aliens_bullet_img, (bullet.x, bullet.y))
-            else:
-                screen.blit(boss_bullet_img, (bullet.x, bullet.y))
-        else:
-            screen.blit(bullet_img, (bullet.x, bullet.y))
+        bullet.draw(screen, bullet_img, theBoss, aliens_bullet_img, boss_bullet_img)
+
+    theBoss.draw(screen, boss_img)
+
+    player.draw(screen, player_img, player_shield_img)
 
     boss_font = pygame.font.Font('rsrc/scaryBoss.ttf', 32)
     font = pygame.font.Font('rsrc/Gloomy_Things.ttf', 20)
@@ -124,7 +118,6 @@ while run:
         screen.blit(boss_bar, bossBarRect)
         screen.blit(inform, inform_rect)
         screen.blit(inform2, inform_rect2)
-        screen.blit(boss_img, (450, 217))
 
     font = pygame.font.Font('rsrc/Gloomy_Things.ttf', 32)
 

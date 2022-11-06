@@ -60,7 +60,8 @@ class Player:
     def getHp(self):
         return f"{self.hp}/{self.maxHp}"
 
-
-    def position(self):
-        return (self.x, self.y)
+    def draw(self, screen, player_img, player_shield_img):
+        screen.blit(player_img, (self.x, self.y))
+        if self.hasShield:
+            screen.blit(player_shield_img, (self.x, self.y))
 

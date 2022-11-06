@@ -13,9 +13,6 @@ class MrAlien:
         self.isAlive = True
         self.nextShotDelay = pygame.time.get_ticks()+randint(ALIEN_MIN_DELAY, ALIEN_MAX_DELAY)
 
-    def position(self):
-        return (self.x, self.y)
-
     def hit(self, bullet_x, bullet_y):
         if self.x < bullet_x < self.x+ALIEN_SIZE[0] and self.y < bullet_y < self.y+ALIEN_SIZE[1]:
             self.isAlive = False
@@ -32,4 +29,7 @@ class MrAlien:
         if pygame.time.get_ticks() >= self.nextShotDelay:
             self.nextShotDelay = pygame.time.get_ticks()+randint(ALIEN_MIN_DELAY, ALIEN_MAX_DELAY)
             aliens_attack.append(Bullet(self.x+45, self.y+55, False))
+
+    def draw(self, screen, alien_img):
+        screen.blit(alien_img, (self.x, self.y))
 

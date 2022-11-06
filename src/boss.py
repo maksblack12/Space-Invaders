@@ -41,3 +41,7 @@ class Boss:
     def getHp(self):
         return f"{self.hp}|{self.maxHp}"
 
+    def draw(self, screen, boss_img):
+        if self.hp > 0 and self.isAlive:
+            screen.blit(boss_img, (450, 217))
+
