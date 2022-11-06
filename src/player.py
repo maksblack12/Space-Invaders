@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from bullet import *
 
 class Player:
     def __init__(self, x, y, boss):
@@ -59,6 +60,18 @@ class Player:
 
     def getHp(self):
         return f"{self.hp}/{self.maxHp}"
+
+    def update(self, keys, bullets):
+        if keys[pygame.K_a]:
+            self.moveLeft()
+        if keys[pygame.K_d]:
+            self.moveRight()
+        if keys[pygame.K_SPACE] and self.isShotPossible():
+            bullets.append(Bullet(self.x+42, SCREEN_H-100, True))
+        if keys[pygame.K_w] and self.isLaserPossible():
+            for i in range(0, 5):
+                bullets.append(Bullet(self.x+42, SCREEN_H-100-50*i, True))
+        self.updateShield(keys[pygame.K_s])
 
     def draw(self, screen, player_img, player_shield_img):
         screen.blit(player_img, (self.x, self.y))

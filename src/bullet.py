@@ -4,7 +4,6 @@ class Bullet:
     def __init__(self, x, y, wasFiredFromShip):
         self.x = x
         self.y = y
-        self.hasHit = False
         self.isAlive=True
         self.wasFiredFromShip = wasFiredFromShip
 
@@ -16,18 +15,16 @@ class Bullet:
         if self.wasFiredFromShip:
             for alien in aliens:
                 if alien.hit(self.x, self.y):
-                    self.hasHit = True
+                    self.isAlive = False
             if theBoss.damage(self.x, self.y):
-                self.hasHit = True
+                self.isAlive = False
             if self.y < 0:
                 self.isAlive = False
         else:
             if player.wasHit(self.x, self.y):
-                self.hasHit = True
+                self.isAlive = False
             if self.y > SCREEN_H:
                 self.isAlive = False
-        if self.hasHit:
-            self.isAlive = False
 
     def draw(self, screen, bullet_img, theBoss, aliens_bullet_img, boss_bullet_img):
         if not self.wasFiredFromShip:

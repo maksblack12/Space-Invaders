@@ -43,31 +43,20 @@ run=True
 
 while run:
     clock.tick(60)
-    ### player input
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 run = False
-    if player.hp <= 0:
-        run = False
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_a]:
-        player.moveLeft()
-    if keys[pygame.K_d]:
-        player.moveRight()
-    if keys[pygame.K_SPACE] and player.isShotPossible():
-        bullets.append(Bullet(player.x+42, SCREEN_H-100, True))
-    if keys[pygame.K_w] and player.isLaserPossible():
-        for i in range(0, 5):
-            bullets.append(Bullet(player.x+42, SCREEN_H-100-50*i, True))
     if keys[pygame.K_c]:
         aliens.clear()
 
     ### Update all entities
-    player.updateShield(keys[pygame.K_s])
+    player.update(keys, bullets)
 
     for alien in aliens:
         alien.update(bullets)
@@ -79,7 +68,8 @@ while run:
     bullets = [bullet for bullet in bullets if bullet.isAlive]
 
     theBoss.update(aliens, bullets, player)
-    if theBoss.hp <= 0:
+
+    if player.hp <= 0 or theBoss.hp <= 0:
         run = False
 
     ### Draw game
