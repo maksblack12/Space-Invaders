@@ -1,5 +1,6 @@
 import pygame
 from settings import *
+from bullet import *
 from random import randint
 
 
@@ -21,10 +22,14 @@ class MrAlien:
             return True
         return False
 
-    def updatePosition(self):
+    def update(self, aliens_attack):
         self.x += MrAlien.globalSpeed
+        if self.x <= 0:
+            MrAlien.globalSpeed = ALIEN_SPEED
+        if self.x >= SCREEN_W-100:
+            MrAlien.globalSpeed = - ALIEN_SPEED
 
-    def isShotPossible(self):
         if pygame.time.get_ticks() >= self.nextShotDelay:
             self.nextShotDelay = pygame.time.get_ticks()+randint(ALIEN_MIN_DELAY, ALIEN_MAX_DELAY)
-            return True
+            aliens_attack.append(Bullet(self.x+45, self.y+55, False))
+

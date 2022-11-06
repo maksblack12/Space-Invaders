@@ -33,7 +33,6 @@ player = Player(SCREEN_W/2-100/2, SCREEN_H-100, theBoss)
 
 bullets = []
 aliens = []
-aliens_attack = []
 
 for x in range(0,SCREEN_W-300,150):
     aliens.append(MrAlien(x+30, 217))
@@ -67,44 +66,40 @@ while run:
     if keys[pygame.K_c]:
         aliens.clear()
 
+    ### Update all entities
     player.updateShield(keys[pygame.K_s])
 
-    screen.fill(DARK_BLUE)
-    # The loops first check if the bad guy got hit then draw the hole thing (very important!)
     for alien in aliens:
-        for bullet in bullets:
-            if alien.hit(bullet.x, bullet.y):
-                bullet.hasHit=True
-        screen.blit(alien_img, alien.position())
-    screen.blit(player_img, player.position())
-    if (player.hasShield):
-        screen.blit(player_shield_img, player.position())
-
-    for attack in aliens_attack:
-        if player.wasHit(attack.x, attack.y):
-            attack.hasHit=True
-
-
-    for alien in aliens:
-        if alien.x<=0:
-            MrAlien.globalSpeed=ALIEN_SPEED
-        if alien.x >=SCREEN_W-100:
-            MrAlien.globalSpeed =- ALIEN_SPEED
-
-    for alien in aliens:
-        alien.updatePosition()
-        if alien.isShotPossible():
-            aliens_attack.append(Bullet(alien.x+45, alien.y+55, False))
+        alien.update(bullets)
 
     for bullet in bullets:
-        screen.blit(bullet_img, (bullet.x, bullet.y))
-        bullet.move()
-    for attack in aliens_attack:
-        if theBoss.isAlive==False:
-            screen.blit(aliens_bullet_img, (attack.x, attack.y))
+        bullet.update(aliens, theBoss, player)
+
+    aliens = [alien for alien in aliens if alien.isAlive]
+    bullets = [bullet for bullet in bullets if bullet.isAlive]
+
+    theBoss.update(aliens, bullets, player)
+    if theBoss.hp <= 0:
+        run = False
+
+    ### Draw game
+    screen.fill(DARK_BLUE)
+
+    for alien in aliens:
+        screen.blit(alien_img, alien.position())
+
+    screen.blit(player_img, player.position())
+    if player.hasShield:
+        screen.blit(player_shield_img, player.position())
+
+    for bullet in bullets:
+        if not bullet.wasFiredFromShip:
+            if theBoss.isAlive==False:
+                screen.blit(aliens_bullet_img, (bullet.x, bullet.y))
+            else:
+                screen.blit(boss_bullet_img, (bullet.x, bullet.y))
         else:
-            screen.blit(boss_bullet_img, (attack.x, attack.y))
-        attack.move()
+            screen.blit(bullet_img, (bullet.x, bullet.y))
 
     boss_font = pygame.font.Font('rsrc/scaryBoss.ttf', 32)
     font = pygame.font.Font('rsrc/Gloomy_Things.ttf', 20)
@@ -124,54 +119,18 @@ while run:
     inform_rect = (SCREEN_W/2-150, 60)
     inform_rect2 = (SCREEN_W/2-135, 80)
 
-    if not aliens:
-        theBoss.isAlive=True
-
-
     if theBoss.hp>0 and theBoss.isAlive:
         screen.blit(boss_health, bossRect)
         screen.blit(boss_bar, bossBarRect)
         screen.blit(inform, inform_rect)
         screen.blit(inform2, inform_rect2)
         screen.blit(boss_img, (450, 217))
-        player.bulletDelay=700
-
-
-    for bullet in bullets:
-        if theBoss.damage(bullet.x, bullet.y):
-            bullet.hasHit = True
-
-    if theBoss.hp==25:
-            aliens_attack.append(Bullet(SCREEN_W/2+400, 0, False))
-
-    if theBoss.hp==15 and theBoss.spawnMinion==False:
-        aliens.append(MrAlien(200, 217))
-        aliens.append(MrAlien(SCREEN_W/2, 217))
-        aliens.append(MrAlien(SCREEN_W-500, 217))
-        aliens.append(MrAlien(SCREEN_W-300, 217))
-        aliens.append(MrAlien(500, 217))
-        theBoss.spawnMinion=True
-
-    if theBoss.hp==10 and theBoss.regenerateHp==False:
-        for i in range(0,19):
-            aliens_attack.append(Bullet(theBoss.x+145, theBoss.y+150, False))
-        theBoss.hp+=5
-        theBoss.regenerateHp=True
-
-    if theBoss.hp<=0:
-        run = False
 
     font = pygame.font.Font('rsrc/Gloomy_Things.ttf', 32)
 
     text = font.render(player.getHp(), True, [255, 0, 0])
-
     textRect = text.get_rect()
-
     textRect.center = (SCREEN_W-40, 10)
 
     screen.blit(text, textRect)
-
-    bullets=[bullet for bullet in bullets if bullet.y>=0 and not bullet.hasHit]
-    aliens_attack=[attack for attack in aliens_attack if attack.y<=SCREEN_H and not attack.hasHit]
-    aliens=[alien for alien in aliens if alien.isAlive]
     pygame.display.update()
