@@ -9,6 +9,8 @@ class Player:
         self.bulletDelay = 300
         self.lastShotTime = pygame.time.get_ticks()+self.bulletDelay
         self.lastLaserTime = pygame.time.get_ticks()+PLAYER_LASER_DELAY
+        self.lastShieldActive = pygame.time.get_ticks()+SHIP_SHIELD_DELAY
+        self.shieldOnTimer = 0
         self.maxHp = 20
         self.hasShield = False
         self.hp = self.maxHp
@@ -34,6 +36,16 @@ class Player:
             self.lastLaserTime = pygame.time.get_ticks()
             return True
         return False
+
+    def updateShield(self,isKeyPressed):
+        if self.hasShield:
+            if pygame.time.get_ticks()-self.shieldOnTimer >= SHIP_SHIELD_TIME:
+                self.lastShieldActive = pygame.time.get_ticks()
+                self.hasShield = False
+        else:
+            if isKeyPressed and pygame.time.get_ticks()-self.lastShieldActive >= SHIP_SHIELD_DELAY:
+                self.shieldOnTimer = pygame.time.get_ticks()
+                self.hasShield=True
 
     def wasHit(self, bullet_x, bullet_y):
         if self.x < bullet_x < self.x+100 and self.y < bullet_y < self.y+100:

@@ -64,9 +64,10 @@ while run:
     if keys[pygame.K_w] and player.isLaserPossible():
         for i in range(0, 5):
             bullets.append(PewPew(player.x+42, SCREEN_H-100-50*i, True))
-    player.hasShield=keys[pygame.K_s]
     if keys[pygame.K_c]:
         aliens.clear()
+
+    player.updateShield(keys[pygame.K_s])
 
     screen.fill(DARK_BLUE)
     # The loops first check if the bad guy got hit then draw the hole thing (very important!)
