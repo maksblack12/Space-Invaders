@@ -60,10 +60,10 @@ while run:
     if keys[pygame.K_d]:
         player.moveRight()
     if keys[pygame.K_SPACE] and player.isShotPossible():
-        bullets.append(PewPew(player.x+42, SCREEN_H-100, True))
+        bullets.append(Bullet(player.x+42, SCREEN_H-100, True))
     if keys[pygame.K_w] and player.isLaserPossible():
         for i in range(0, 5):
-            bullets.append(PewPew(player.x+42, SCREEN_H-100-50*i, True))
+            bullets.append(Bullet(player.x+42, SCREEN_H-100-50*i, True))
     if keys[pygame.K_c]:
         aliens.clear()
 
@@ -94,7 +94,7 @@ while run:
     for alien in aliens:
         alien.updatePosition()
         if alien.isShotPossible():
-            aliens_attack.append(PewPew(alien.x+45, alien.y+55, False))
+            aliens_attack.append(Bullet(alien.x+45, alien.y+55, False))
 
     for bullet in bullets:
         screen.blit(bullet_img, (bullet.x, bullet.y))
@@ -142,7 +142,7 @@ while run:
             bullet.hasHit = True
 
     if theBoss.hp==25:
-            aliens_attack.append(PewPew(SCREEN_W/2+400, 0, False))
+            aliens_attack.append(Bullet(SCREEN_W/2+400, 0, False))
 
     if theBoss.hp==15 and theBoss.spawnMinion==False:
         aliens.append(MrAlien(200, 217))
@@ -154,7 +154,7 @@ while run:
 
     if theBoss.hp==10 and theBoss.regenerateHp==False:
         for i in range(0,19):
-            aliens_attack.append(PewPew(theBoss.x+145, theBoss.y+150, False))
+            aliens_attack.append(Bullet(theBoss.x+145, theBoss.y+150, False))
         theBoss.hp+=5
         theBoss.regenerateHp=True
 

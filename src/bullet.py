@@ -1,6 +1,6 @@
 from settings import *
 
-class PewPew:
+class Bullet:
     def __init__(self, x, y, wasFiredFromShip):
         self.x = x
         self.y = y
