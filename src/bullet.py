@@ -26,11 +26,11 @@ class Bullet:
             if self.y > SCREEN_H:
                 self.isAlive = False
 
-    def draw(self, screen, bullet_img, theBoss, aliens_bullet_img, boss_bullet_img):
+    def draw(self, screen, theBoss, imageManager):
         if not self.wasFiredFromShip:
             if theBoss.isAlive == False:
-                screen.blit(aliens_bullet_img, (self.x, self.y))
+                screen.blit(imageManager.get("aliens_attack"), (self.x, self.y))
             else:
-                screen.blit(boss_bullet_img, (self.x, self.y))
+                screen.blit(imageManager.get("boss_attack"), (self.x, self.y))
         else:
-            screen.blit(bullet_img, (self.x, self.y))
+            screen.blit(imageManager.get("bullet"), (self.x, self.y))

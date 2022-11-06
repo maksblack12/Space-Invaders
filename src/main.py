@@ -4,25 +4,15 @@ from settings import *
 from bullet import *
 from alien import *
 from boss import *
+from image_manager import *
 
 
 pygame.init()
 
 screen = pygame.display.set_mode((SCREEN_W,SCREEN_H))
-alien_img=pygame.image.load("rsrc/alien.png")
-alien_img = pygame.transform.scale(alien_img, ALIEN_SIZE)
-boss_img = pygame.image.load("rsrc/boss.png")
-boss_img = pygame.transform.scale(boss_img, (300, 300))
-player_img=pygame.image.load("rsrc/player.png")
-player_img = pygame.transform.scale(player_img, (100, 100))
-player_shield_img=pygame.image.load("rsrc/player_shield.png")
-player_shield_img = pygame.transform.scale(player_shield_img, (100, 100))
-bullet_img = pygame.image.load("rsrc/bullet.png")
-bullet_img = pygame.transform.scale(bullet_img, (18, 48))
-aliens_bullet_img = pygame.image.load("rsrc/aliens_attack.png")
-aliens_bullet_img = pygame.transform.scale(aliens_bullet_img, (18, 48))
-boss_bullet_img = pygame.image.load("rsrc/boss_attack.png")
-boss_bullet_img = pygame.transform.scale(boss_bullet_img, (100, 100))
+
+imageManager = ImageManager()
+
 screen.fill(DARK_BLUE)
 clock = pygame.time.Clock()
 
@@ -76,14 +66,14 @@ while run:
     screen.fill(DARK_BLUE)
 
     for alien in aliens:
-        alien.draw(screen, alien_img)
+        alien.draw(screen, imageManager)
 
     for bullet in bullets:
-        bullet.draw(screen, bullet_img, theBoss, aliens_bullet_img, boss_bullet_img)
+        bullet.draw(screen, theBoss, imageManager)
 
-    theBoss.draw(screen, boss_img)
+    theBoss.draw(screen, imageManager)
 
-    player.draw(screen, player_img, player_shield_img)
+    player.draw(screen, imageManager)
 
     boss_font = pygame.font.Font('rsrc/scaryBoss.ttf', 32)
     font = pygame.font.Font('rsrc/Gloomy_Things.ttf', 20)

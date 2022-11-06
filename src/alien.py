@@ -30,6 +30,6 @@ class MrAlien:
             self.nextShotDelay = pygame.time.get_ticks()+randint(ALIEN_MIN_DELAY, ALIEN_MAX_DELAY)
             aliens_attack.append(Bullet(self.x+45, self.y+55, False))
 
-    def draw(self, screen, alien_img):
-        screen.blit(alien_img, (self.x, self.y))
+    def draw(self, screen, imageManager):
+        screen.blit(imageManager.get("alien"), (self.x, self.y))
 

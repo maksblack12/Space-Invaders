@@ -73,8 +73,8 @@ class Player:
                 bullets.append(Bullet(self.x+42, SCREEN_H-100-50*i, True))
         self.updateShield(keys[pygame.K_s])
 
-    def draw(self, screen, player_img, player_shield_img):
-        screen.blit(player_img, (self.x, self.y))
+    def draw(self, screen, imageManager):
+        screen.blit(imageManager.get("player"), (self.x, self.y))
         if self.hasShield:
-            screen.blit(player_shield_img, (self.x, self.y))
+            screen.blit(imageManager.get("player_shield"), (self.x, self.y))
 
