@@ -13,7 +13,6 @@ screen = pygame.display.set_mode((SCREEN_W,SCREEN_H))
 
 imageManager = ImageManager()
 
-screen.fill(DARK_BLUE)
 clock = pygame.time.Clock()
 
 theBoss = Boss(SCREEN_W/2,SCREEN_H/2)
@@ -21,8 +20,8 @@ theBoss = Boss(SCREEN_W/2,SCREEN_H/2)
 player = Player(SCREEN_W/2-100/2, SCREEN_H-100, theBoss)
 
 
-bullets = []
 aliens = []
+bullets = []
 
 for x in range(0,SCREEN_W-300,150):
     aliens.append(MrAlien(x+30, 217))
@@ -81,7 +80,7 @@ while run:
     boss_health = boss_font.render(theBoss.getHp(), True, [190, 0, 0])
     boss_bar = boss_font.render("__________", True, [190, 0, 0])
     inform = font.render("The boss has slowd down your bullets!", True, [255, 0, 0])
-    inform2 = font.render("The boss has upgraded the aliens!", True, [255, 0, 0])
+    inform2 = font.render("The boss has upgraded his bullets!", True, [255, 0, 0])
 
     bossRect = boss_health.get_rect()
     bossBarRect = boss_bar.get_rect()
