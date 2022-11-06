@@ -7,7 +7,7 @@ class ImageManager:
     def get(self, name):
         if name in self.loadedImages:
             return self.loadedImages[name]
-        img=pygame.image.load(f"rsrc/{name}.png")
+        img=pygame.image.load(f"rsrc/image/{name}.png")
         self.loadedImages[name]=img
         return img
 

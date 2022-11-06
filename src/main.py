@@ -75,8 +75,8 @@ while run:
 
     player.draw(screen, imageManager)
 
-    boss_font = pygame.font.Font('rsrc/scaryBoss.ttf', 32)
-    font = pygame.font.Font('rsrc/Gloomy_Things.ttf', 20)
+    boss_font = pygame.font.Font('rsrc/font/scaryBoss.ttf', 32)
+    font = pygame.font.Font('rsrc/font/Gloomy_Things.ttf', 20)
 
     boss_health = boss_font.render(theBoss.getHp(), True, [190, 0, 0])
     boss_bar = boss_font.render("__________", True, [190, 0, 0])
@@ -99,7 +99,7 @@ while run:
         screen.blit(inform, inform_rect)
         screen.blit(inform2, inform_rect2)
 
-    font = pygame.font.Font('rsrc/Gloomy_Things.ttf', 32)
+    font = pygame.font.Font('rsrc/font/Gloomy_Things.ttf', 32)
 
     text = font.render(player.getHp(), True, [255, 0, 0])
     textRect = text.get_rect()
